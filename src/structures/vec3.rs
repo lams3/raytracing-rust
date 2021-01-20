@@ -3,9 +3,9 @@ use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssi
 
 #[derive(PartialEq, Clone, Copy, Default, Debug)]
 pub struct Vec3 {
-    x: f64,
-    y: f64, 
-    z: f64
+    pub x: f64,
+    pub y: f64, 
+    pub z: f64
 }
 
 impl Vec3 {
@@ -27,6 +27,12 @@ impl Vec3 {
             y: a.z * b.x - a.x - b.z,
             z: a.x * b.y - a.y * b.x,
         }
+    }
+
+    pub fn lerp(a: &Self, b: &Self, t: f64) -> Self {
+        let v1 = *a;
+        let v2 = *b;
+        (1.0 - t) * v1 + t * v2
     }
 
     pub fn squared_length(&self) -> f64 {
