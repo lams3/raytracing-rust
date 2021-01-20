@@ -120,6 +120,14 @@ impl DivAssign<f64> for Vec3 {
     }
 }
 
+impl Mul<Vec3> for f64 {
+    type Output = Vec3;
+
+    fn mul(self, other: Vec3) -> Self::Output {
+        other * self
+    }
+}
+
 impl Mul<f64> for Vec3 {
     type Output = Self;
 
