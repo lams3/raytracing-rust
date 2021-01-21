@@ -9,3 +9,6 @@ pub use self::point3::Point3;
 
 pub mod ray;
 pub use self::ray::Ray;
+
+pub mod hit_record;
+pub use self::hit_record::HitRecord;
