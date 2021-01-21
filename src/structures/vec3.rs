@@ -1,5 +1,7 @@
 use std::default::Default;
 use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssign, Index, IndexMut};
+use rand::prelude::{thread_rng, Rng};
+use std::f64::consts::{PI};
 
 #[derive(PartialEq, Clone, Copy, Default, Debug)]
 pub struct Vec3 {
@@ -14,6 +16,28 @@ impl Vec3 {
             x: x,
             y: y,
             z: z
+        }
+    }
+
+    pub fn random_in_unit_sphere() -> Self {
+        let mut rng = thread_rng();
+        let inclination = rng.gen_range(0.0..=PI);
+        let azimuth = rng.gen_range(-PI..=PI);
+        let r = 1.0;
+
+        Self {
+            x: r * inclination.sin() * azimuth.cos(),
+            y: r * inclination.sin() * azimuth.sin(),
+            z: r * inclination.cos()
+        }
+    }
+
+    pub fn random_in_hemisphere(normal: &Self) -> Self {
+        let in_unit_sphere = Self::random_in_unit_sphere();
+        if Self::dot(&in_unit_sphere, normal) >= 0.0 {
+            in_unit_sphere
+        } else {
+            -in_unit_sphere
         }
     }
 
