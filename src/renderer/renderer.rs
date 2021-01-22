@@ -1,4 +1,4 @@
-use crate::structures::{Color, Vec3, Point3, Ray};
+use crate::structures::{Color, Ray};
 use crate::renderer::Camera;
 use crate::renderer::skybox::{Skybox};
 use crate::hittables::{Hittable};
@@ -68,14 +68,14 @@ impl Renderer {
 
     fn ray_color(&self, ray: &Ray, world: &dyn Hittable, skybox: &dyn Skybox, depth: u32) -> Color {
         if depth <= 0 {
-            return skybox.get_color(ray);
+            return Color::new(0.0, 0.0, 0.0);
         }
         
         match world.hit(&ray, 0.001, INFINITY) {
-            Some(record) => {
-                let target: Point3 = record.point + Vec3::random_in_hemisphere(&record.normal);
-                0.5 * self.ray_color(&Ray::new(record.point, target - record.point), world, skybox, depth - 1)
-            },
+            Some(hit) => match hit.material.unwrap().scatter(ray, &hit) {
+                Some((scattered_ray, attenuation)) => attenuation * self.ray_color(&scattered_ray, world, skybox, depth - 1),
+                None => Color::new(0.0, 0.0, 0.0)
+            }
             None => skybox.get_color(&ray)
         }
     }
