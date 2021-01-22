@@ -2,7 +2,7 @@ use crate::structures::{Ray, Color, Vec3};
 use crate::utility::Remapable;
 
 pub trait Skybox {
-    fn get_color(&self, ray: Ray) -> Color;
+    fn get_color(&self, ray: &Ray) -> Color;
 }
 
 pub struct GradientSkybox {
@@ -22,7 +22,7 @@ impl GradientSkybox {
 }
 
 impl Skybox for GradientSkybox {
-    fn get_color(&self, ray: Ray) -> Color {
+    fn get_color(&self, ray: &Ray) -> Color {
         let t = Vec3::dot(&ray.direction, &self.direction).remap((-1.0, 1.0), (0.0, 1.0));
         Vec3::lerp(&self.from, &self.to, t)
     }

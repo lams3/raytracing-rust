@@ -1,16 +1,21 @@
+use crate::materials::Material;
 use crate::hittables::{Hittable};
 use crate::structures::{Vec3, Point3, Ray, HitRecord};
 
+use std::rc::Rc;
+
 pub struct Sphere {
     pub center: Point3,
-    pub radius: f64
+    pub radius: f64,
+    pub material: Rc<dyn Material>
 }
 
 impl Sphere {
-    pub fn new(center: Point3, radius: f64) -> Self {
+    pub fn new(center: Point3, radius: f64, material: Rc<dyn Material>) -> Self {
         Self {
             center: center,
-            radius: radius
+            radius: radius,
+            material: material
         }
     }
 }
@@ -33,8 +38,8 @@ impl Hittable for Sphere {
             
             if t_min < hit && hit < t_max {
                 let p = ray.at(hit);
-                let n = p - self.center;
-                return Some(HitRecord::new(p, n, hit))
+                let n = (p - self.center) / self.radius;
+                return Some(HitRecord::new(p, n, self.material.as_ref(), hit))
             }
         }
         

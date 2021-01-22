@@ -1,5 +1,7 @@
 use std::default::Default;
 use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssign, Index, IndexMut};
+use rand::prelude::{thread_rng, Rng};
+use std::f64::consts::{PI};
 
 #[derive(PartialEq, Clone, Copy, Default, Debug)]
 pub struct Vec3 {
@@ -15,6 +17,46 @@ impl Vec3 {
             y: y,
             z: z
         }
+    }
+
+    pub fn random_in_unit_sphere() -> Self {
+        let mut rng = thread_rng();
+        let inclination = rng.gen_range(0.0..=PI);
+        let azimuth = rng.gen_range(-PI..=PI);
+        let r = 1.0;
+
+        Self {
+            x: r * inclination.sin() * azimuth.cos(),
+            y: r * inclination.sin() * azimuth.sin(),
+            z: r * inclination.cos()
+        }
+    }
+
+    pub fn random_in_hemisphere(normal: &Self) -> Self {
+        let in_unit_sphere = Self::random_in_unit_sphere();
+        if Self::dot(&in_unit_sphere, normal) >= 0.0 {
+            in_unit_sphere
+        } else {
+            -in_unit_sphere
+        }
+    }
+
+    pub fn reflect(v: &Self, n: &Self) -> Self{
+        let v = *v;
+        let n = *n;
+        v - 2.0 * Self::dot(&v, &n) * n
+    }
+
+    pub fn refract(v: &Self, n: &Self, eta_in: f64, eta_out: f64) -> Self {
+        let f = eta_in / eta_out;
+        let v = *v;
+        let n = *n;
+
+        let cos_theta = f64::min(Vec3::dot(&(-v), &n), 1.0);
+        let r_out_ortho = f * (v + cos_theta * n);
+        let r_out_parallel = -f64::sqrt(f64::abs(1.0 - r_out_ortho.squared_length())) * n;
+        
+        r_out_ortho + r_out_parallel
     }
 
     pub fn dot(a: &Self, b: &Self) -> f64 {
