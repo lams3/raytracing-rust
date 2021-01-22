@@ -41,6 +41,24 @@ impl Vec3 {
         }
     }
 
+    pub fn reflect(v: &Self, n: &Self) -> Self{
+        let v = *v;
+        let n = *n;
+        v - 2.0 * Self::dot(&v, &n) * n
+    }
+
+    pub fn refract(v: &Self, n: &Self, eta_in: f64, eta_out: f64) -> Self {
+        let f = eta_in / eta_out;
+        let v = *v;
+        let n = *n;
+
+        let cos_theta = f64::min(Vec3::dot(&(-v), &n), 1.0);
+        let r_out_ortho = f * (v + cos_theta * n);
+        let r_out_parallel = -f64::sqrt(f64::abs(1.0 - r_out_ortho.squared_length())) * n;
+        
+        r_out_ortho + r_out_parallel
+    }
+
     pub fn dot(a: &Self, b: &Self) -> f64 {
         a.x * b.x + a.y * b.y + a.z * b.z
     }
