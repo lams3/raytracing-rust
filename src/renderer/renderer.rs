@@ -26,14 +26,12 @@ impl Renderer {
         }
     }
 
-    pub fn render<'a, T: FnMut(f64) + 'a>(&mut self, path: &str, world: &dyn Hittable, skybox: &dyn Skybox, progress: T) {
+    pub fn render<'a, T: FnMut(f64) + 'a>(&mut self, path: &str, world: &dyn Hittable, skybox: &dyn Skybox, camera: &Camera, progress: T) {
         let mut clojure = progress;
         
         let mut rng = thread_rng();
         let uniform_distrbution = Uniform::from(-0.5..=0.5);
-
-        let camera = Camera::new(Default::default(), (120.0 as f64).to_radians(), self.aspect_ratio());
-
+        
         for x in 0..self.image_width {
             (&mut clojure)(x as f64 / self.image_width as f64);
 
