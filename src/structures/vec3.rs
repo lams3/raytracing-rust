@@ -41,6 +41,13 @@ impl Vec3 {
         }
     }
 
+    pub fn random_inside_unit_disk() -> Vec3 {
+        let mut rng = thread_rng();
+        let theta = rng.gen_range(-PI..=PI);
+        let radius = rng.gen_range(0.0..=1.0);
+        radius * Vec3::new(theta.cos(), theta.sin(), 0.0)
+    }
+
     pub fn reflect(v: &Self, n: &Self) -> Self{
         let v = *v;
         let n = *n;
