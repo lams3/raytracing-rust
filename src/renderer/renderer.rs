@@ -77,8 +77,4 @@ impl Renderer {
             None => skybox.get_color(&ray)
         }
     }
-
-    fn aspect_ratio(&self) -> f64 {
-        self.image_width as f64 / self.image_height as f64
-    }
 }

@@ -1,5 +1,7 @@
 use crate::structures::Vec3;
 
+use rand::prelude::{thread_rng, Rng};
+
 pub type Color = Vec3;
 
 impl Color {
@@ -11,5 +13,10 @@ impl Color {
         }
 
         pixel
+    }
+
+    pub fn random(from: f64, to: f64) -> Self {
+        let mut rng = thread_rng();
+        Color::new(rng.gen_range(from..to), rng.gen_range(from..to), rng.gen_range(from..to))
     }
 }
