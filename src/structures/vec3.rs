@@ -1,7 +1,8 @@
-use std::default::Default;
 use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssign, Index, IndexMut};
+use std::default::Default;
+use std::f64::consts::PI;
+
 use rand::prelude::{thread_rng, Rng};
-use std::f64::consts::{PI};
 
 #[derive(PartialEq, Clone, Copy, Default, Debug)]
 pub struct Vec3 {

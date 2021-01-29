@@ -1,5 +1,6 @@
-use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssign, Index, IndexMut};
 use crate::structures::Color;
+
+use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssign, Index, IndexMut};
 
 #[derive(Clone)]
 pub struct Image {

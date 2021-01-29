@@ -1,7 +1,6 @@
 use crate::structures::{Ray, HitRecord};
 use crate::hittables::Hittable;
 
-// use std::rc::Rc;
 use std::sync::Arc;
 
 pub struct HittableList {

@@ -3,16 +3,16 @@ extern crate raytracer;
 use raytracer::rendering::render;
 use raytracer::rendering::skyboxes::GradientSkybox;
 use raytracer::rendering::Camera;
+use raytracer::rendering::RenderParams;
+use raytracer::structures::{Color, Vec3, Point3};
+use raytracer::hittables::{HittableList, Sphere};
+use raytracer::materials::{Metal, Lambertian, Dieletric};
+
 use std::sync::Arc;
 
 use rand::prelude::{thread_rng, Rng};
 
 use pbr::ProgressBar;
-
-use raytracer::rendering::RenderParams;
-use raytracer::structures::{Color, Vec3, Point3};
-use raytracer::hittables::{HittableList, Sphere};
-use raytracer::materials::{Metal, Lambertian, Dieletric};
 
 const WIDTH: usize = 1280;
 const HEIGHT: usize = 720;
