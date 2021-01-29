@@ -10,7 +10,7 @@ Here, I'll try not only to "translate" from the C++ code in the books, but also 
 ### Roadmap
 
 - [x] First book ("Ray Tracing in One Weekend") implementation;
-- [ ] Multi-threading implementation;
+- [x] Multi-threading implementation;
 - [ ] Triangle Mesh Hittable implementation;
 - [ ] Second book ("Ray Tracing: The Next Week") implementation;
 - [ ] Third book ("Ray Tracing: The Rest of Your Life") implementation;
