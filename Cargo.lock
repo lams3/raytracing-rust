@@ -375,8 +375,10 @@ name = "raytracer"
 version = "0.1.0"
 dependencies = [
  "image",
+ "num_cpus",
  "pbr",
  "rand",
+ "scoped_threadpool",
 ]
 
 [[package]]

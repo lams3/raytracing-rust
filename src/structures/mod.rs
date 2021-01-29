@@ -12,3 +12,6 @@ pub use self::ray::Ray;
 
 pub mod hit_record;
 pub use self::hit_record::HitRecord;
+
+pub mod image;
+pub use self::image::Image;
