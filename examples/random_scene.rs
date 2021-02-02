@@ -3,16 +3,16 @@ extern crate raytracer;
 use raytracer::rendering::render;
 use raytracer::rendering::skyboxes::GradientSkybox;
 use raytracer::rendering::Camera;
+use raytracer::rendering::RenderParams;
+use raytracer::structures::{Color, Vec3, Point3};
+use raytracer::hittables::{HittableList, Sphere};
+use raytracer::materials::{Metal, Lambertian, Dieletric};
+
 use std::sync::Arc;
 
 use rand::prelude::{thread_rng, Rng};
 
 use pbr::ProgressBar;
-
-use raytracer::rendering::RenderParams;
-use raytracer::structures::{Color, Vec3, Point3};
-use raytracer::hittables::{HittableList, Sphere};
-use raytracer::materials::{Metal, Lambertian, Dieletric};
 
 const WIDTH: usize = 1280;
 const HEIGHT: usize = 720;
@@ -29,7 +29,7 @@ fn main() {
         num_samples: NUM_SAMPLES,
         max_ray_depth: MAX_RAY_DEPTH
     };
-    let camera = Arc::new(Camera::new(Point3::new(13.0, 2.0, 3.0), Point3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 1.0, 0.0), (20.0 as f64).to_radians(), aspect_ratio, 0.1, 10.0));
+    let camera = Arc::new(Camera::new(Point3::new(13.0, 2.0, 3.0), Point3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 1.0, 0.0), (20.0 as f64).to_radians(), aspect_ratio, 0.1, 10.0, 0.0, 1.0));
     let skybox = Arc::new(GradientSkybox::new(Color::new(1.0, 1.0, 1.0), Color::new(0.5, 0.7, 1.0), Vec3::new(0.0, 1.0, 0.0)));
     let world = Arc::new(build_scene());
     

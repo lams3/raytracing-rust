@@ -15,3 +15,9 @@ pub use self::hit_record::HitRecord;
 
 pub mod image;
 pub use self::image::Image;
+
+pub mod quaternion;
+pub use self::quaternion::Quaternion;
+
+pub mod transform;
+pub use self::transform::Transform;

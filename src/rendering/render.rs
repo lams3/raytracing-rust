@@ -1,10 +1,10 @@
-use std::sync::Mutex;
 use crate::structures::{Color, Ray, Image};
 use crate::hittables::Hittable;
 use crate::rendering::Camera;
 use crate::rendering::skyboxes::Skybox;
 
 use std::f64::INFINITY;
+use std::sync::Mutex;
 use std::sync::Arc;
 use std::sync::mpsc::channel;
 

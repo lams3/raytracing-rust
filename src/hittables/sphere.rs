@@ -1,6 +1,6 @@
-use crate::materials::Material;
-use crate::hittables::{Hittable};
 use crate::structures::{Vec3, Point3, Ray, HitRecord};
+use crate::hittables::Hittable;
+use crate::materials::Material;
 
 use std::sync::Arc;
 
