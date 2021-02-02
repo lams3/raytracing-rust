@@ -20,6 +20,34 @@ impl Vec3 {
         }
     }
 
+    pub fn zero() -> Self {
+        Self::default()
+    }
+
+    pub fn right() -> Self {
+        Vec3::new(1.0, 0.0, 0.0)
+    }
+
+    pub fn left() -> Self {
+        -Vec3::right()
+    }
+
+    pub fn up() -> Self {
+        Vec3::new(0.0, 1.0, 0.0)
+    }
+
+    pub fn down() -> Self {
+        -Vec3::up()
+    }
+
+    pub fn front() -> Self {
+        Vec3::new(0.0, 0.0, 1.0)
+    }
+
+    pub fn back() -> Self {
+        -Vec3::front()
+    }
+
     pub fn random_in_unit_sphere() -> Self {
         let mut rng = thread_rng();
         let inclination = rng.gen_range(0.0..=PI);
