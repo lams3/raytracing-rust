@@ -20,6 +20,23 @@ impl Quaternion {
         Quaternion::new(axis, angle).as_unit_norm()
     }
 
+    pub fn slerp(a: Self, b: Self, t: f64) -> Self {
+        let cos_half_angle = a.s * b.s + Vec3::dot(&a.v, &b.v);
+        
+        if f64::abs(cos_half_angle) >= 1.0 {
+            return a
+        }
+        
+        let half_angle = f64::acos(cos_half_angle);
+        let sin_half_theta = f64::sin(half_angle);
+
+        if f64::abs(sin_half_theta) < 0.001 {
+            return 0.5 *a + 0.5 * b
+        }
+
+        (a * f64::sin((1.0 - t) * half_angle) + b * f64::sin(t * half_angle)) / f64::sin(half_angle)
+    }
+
     pub fn as_unit_norm(&self) -> Self {
         let axis = self.v.normalized();
         let angle = self.s;
