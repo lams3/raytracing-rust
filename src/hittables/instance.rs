@@ -1,4 +1,4 @@
-use crate::structures::{Ray, HitRecord, Transform};
+use crate::structures::{Ray, HitRecord, Transform, AABB};
 use crate::hittables::Hittable;
 
 use std::sync::Arc;
@@ -22,5 +22,15 @@ impl Hittable for Instance {
     fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let ray = self.transform.inverse_transform_ray(*ray);
         self.hittable.hit(&ray, t_min, t_max)
+    }
+
+    fn bounding_box(&self, time_0: f64, time_1: f64) -> Option<AABB> {
+        match self.hittable.bounding_box(time_0, time_1) {
+            Some(aabb) => {
+                let points = aabb.get_points().iter().map(|&el| self.transform.transform_point(el)).collect();
+                Some(AABB::from_points(&points))
+            },
+            None => None
+        }
     }
 }
