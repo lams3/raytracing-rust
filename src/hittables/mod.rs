@@ -9,3 +9,6 @@ pub use self::hittable_list::HittableList;
 
 pub mod instance;
 pub use self::instance::Instance;
+
+pub mod moving_instance;
+pub use self::moving_instance::MovingInstance;

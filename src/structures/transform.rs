@@ -54,4 +54,12 @@ impl Transform {
 
         self.inverse_transform_vector(point) + translation
     }
+
+    pub fn interpolate(a: Self, b: Self, t: f64) -> Self {
+        Self {
+            translation: Vec3::lerp(&a.translation, &b.translation, t),
+            rotation: Quaternion::slerp(a.rotation, b.rotation, t),
+            scale: Vec3::lerp(&a.scale, &b.scale, t)
+        }
+    }
 }

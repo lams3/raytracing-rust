@@ -4,8 +4,8 @@ use raytracer::rendering::render;
 use raytracer::rendering::skyboxes::GradientSkybox;
 use raytracer::rendering::Camera;
 use raytracer::rendering::RenderParams;
-use raytracer::structures::{Color, Vec3, Point3};
-use raytracer::hittables::{HittableList, Sphere};
+use raytracer::structures::{Color, Vec3, Point3, Quaternion, Transform};
+use raytracer::hittables::{HittableList, Sphere, MovingInstance};
 use raytracer::materials::{Metal, Lambertian, Dieletric};
 
 use std::sync::Arc;
@@ -61,7 +61,17 @@ fn build_scene() -> HittableList {
                 if choose_mat < 0.8 {
                     let albedo = Color::random(0.0, 1.0) * Color::random(0.0, 1.0);
                     let material = Arc::new(Lambertian::new(albedo));
-                    world.add(Arc::new(Sphere::new(center, 0.2, material)));
+                    
+                    let position_0 = center;
+                    let position_1 = center + Vec3::up() * rng.gen_range(0.0..=0.5);
+                    let rotation = Quaternion::default();
+                    let scale = Vec3::new(1.0, 1.0, 1.0);
+
+                    let transform_0 = Transform::new(position_0, rotation, scale);
+                    let transform_1 = Transform::new(position_1, rotation, scale);
+                    
+                    let sphere = Arc::new(Sphere::new(Vec3::zero(), 0.2, material));
+                    world.add(Arc::new(MovingInstance::new(sphere, transform_0, transform_1, 0.0, 1.0)));
                 } else if choose_mat < 0.95 {
                     let albedo = Color::random(0.5, 1.0) * Color::random(0.5, 1.0);
                     let fuzz: f64 = rng.gen_range(0.0..=0.5);
