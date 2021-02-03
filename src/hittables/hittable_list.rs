@@ -1,4 +1,4 @@
-use crate::structures::{Ray, HitRecord};
+use crate::structures::{Point3, Ray, HitRecord, AABB};
 use crate::hittables::Hittable;
 
 use std::sync::Arc;
@@ -39,5 +39,30 @@ impl Hittable for HittableList {
         }
 
         current_hit
+    }
+
+    fn bounding_box(&self, time_0: f64, time_1: f64) -> Option<AABB> {
+        if self.hittables.is_empty() {
+            return None
+        }
+
+        let mut total = AABB::new(Point3::zero(), Point3::zero());
+        let mut first_box = true;
+
+        for hittable in &self.hittables {
+            match hittable.bounding_box(time_0, time_1) {
+                Some(aabb) => {
+                    if first_box {
+                        first_box = false;
+                        total = aabb;
+                    } else {
+                        total.encapsulate(aabb);
+                    }
+                },
+                None => return None
+            }
+        }
+
+        Some(total)
     }
 }
