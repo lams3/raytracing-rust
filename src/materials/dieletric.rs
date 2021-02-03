@@ -44,7 +44,7 @@ impl Material for Dieletric {
         };
 
         
-        let scattered_ray = Ray::new(hit.point, scatter_direction);
+        let scattered_ray = Ray::with_time(hit.point, scatter_direction, ray.time);
         
         Some((scattered_ray, attenuation))
     }
