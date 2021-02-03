@@ -1,4 +1,4 @@
-use crate::structures::{Vec3, Point3, Ray, HitRecord};
+use crate::structures::{Vec3, Point3, Ray, HitRecord, AABB};
 use crate::hittables::Hittable;
 use crate::materials::Material;
 
@@ -44,5 +44,11 @@ impl Hittable for Sphere {
         }
         
         return None;
+    }
+
+    
+    fn bounding_box(&self, _: f64, _: f64) -> Option<AABB> {
+        let vec = self.radius * Vec3::new(1.0, 1.0, 1.0);
+        Some(AABB::new(self.center - vec, self.center + vec))
     }
 }
