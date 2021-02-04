@@ -1,5 +1,6 @@
 use crate::structures::{Point3, Ray};
 
+#[derive(Clone, Copy, Default, Debug)]
 pub struct AABB {
     pub min: Point3,
     pub max: Point3
