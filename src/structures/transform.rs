@@ -46,13 +46,11 @@ impl Transform {
             inv_scale[i] = 1.0 / inv_scale[i];
         }
 
-        self.rotation.inverse().rotate_vector(vec * inv_scale)
+        self.rotation.inverse().rotate_vector(vec) * inv_scale
     }
 
     pub fn inverse_transform_point(&self, point: Point3) -> Point3 {
-        let translation = -self.rotation.inverse().rotate_vector(self.translation);
-
-        self.inverse_transform_vector(point) + translation
+        self.inverse_transform_vector(point - self.translation)
     }
 
     pub fn interpolate(a: Self, b: Self, t: f64) -> Self {
