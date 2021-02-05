@@ -21,7 +21,14 @@ impl Hittable for Instance {
     
     fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let ray = self.transform.inverse_transform_ray(*ray);
-        self.hittable.hit(&ray, t_min, t_max)
+        match self.hittable.hit(&ray, t_min, t_max) {
+            Some(mut record) => {
+                record.point = self.transform.transform_point(record.point);
+                record.normal = self.transform.transform_vector(record.normal);
+                Some(record)
+            },
+            None => None
+        }
     }
 
     fn bounding_box(&self, time_0: f64, time_1: f64) -> Option<AABB> {
