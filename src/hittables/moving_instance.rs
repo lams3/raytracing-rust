@@ -34,7 +34,14 @@ impl Hittable for MovingInstance {
     fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let transform = self.transform_at(ray.time);
         let ray = transform.inverse_transform_ray(*ray);
-        self.hittable.hit(&ray, t_min, t_max)
+        match self.hittable.hit(&ray, t_min, t_max) {
+            Some(mut record) => {
+                record.point = transform.transform_point(record.point);
+                record.normal = transform.transform_vector(record.normal);
+                Some(record)
+            },
+            None => None
+        }
     }
 
     fn bounding_box(&self, time_0: f64, time_1: f64) -> Option<AABB> {
