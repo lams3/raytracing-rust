@@ -4,7 +4,7 @@ use crate::hittables::Hittable;
 use std::sync::Arc;
 
 pub struct HittableList {
-    hittables: Vec<Arc<dyn Hittable>>
+    pub hittables: Vec<Arc<dyn Hittable>>
 }
 
 impl HittableList {
