@@ -12,3 +12,6 @@ pub use self::instance::Instance;
 
 pub mod moving_instance;
 pub use self::moving_instance::MovingInstance;
+
+pub mod bvh_node;
+pub use self::bvh_node::BVHNode;
