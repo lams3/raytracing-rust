@@ -1,5 +1,7 @@
 use crate::structures::{Point3, Ray};
 
+use std::ops::Add;
+
 #[derive(Clone, Copy, Default, Debug)]
 pub struct AABB {
     pub min: Point3,
@@ -75,5 +77,15 @@ impl AABB {
             Point3::new(self.max.x, self.max.y, self.min.z),
             Point3::new(self.max.x, self.max.y, self.max.z),
         ]
+    }
+}
+
+impl Add for AABB {
+    type Output = Self;
+    
+    fn add(self, other: Self) -> Self::Output {
+        let mut aabb = self.clone();
+        aabb.encapsulate(other);
+        aabb
     }
 }
