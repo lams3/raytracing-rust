@@ -71,6 +71,7 @@ fn render_sample(world: Arc<dyn Hittable>, skybox: Arc<dyn Skybox>, camera: Arc<
             let color = ray_color(&ray, world.clone(), skybox.clone(), params.max_ray_depth);
 
             image[(x, y)] = color;
+
         }
     }
 
@@ -92,5 +93,5 @@ fn ray_color(ray: &Ray, world: Arc<dyn Hittable>, skybox: Arc<dyn Skybox>, depth
 }
 
 fn get_thread_count() -> u32 {
-    num_cpus::get_physical() as u32
+    num_cpus::get() as u32
 }

@@ -5,10 +5,11 @@ use raytracer::rendering::skyboxes::GradientSkybox;
 use raytracer::rendering::Camera;
 use raytracer::rendering::RenderParams;
 use raytracer::structures::{Color, Vec3, Point3, Quaternion, Transform};
-use raytracer::hittables::{HittableList, Sphere, MovingInstance};
+use raytracer::hittables::{BVHNode, HittableList, Sphere, MovingInstance};
 use raytracer::materials::{Metal, Lambertian, Dieletric};
 
 use std::sync::Arc;
+use std::time::{Instant};
 
 use rand::prelude::{thread_rng, Rng};
 
@@ -31,13 +32,19 @@ fn main() {
     };
     let camera = Arc::new(Camera::new(Point3::new(13.0, 2.0, 3.0), Point3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 1.0, 0.0), (20.0 as f64).to_radians(), aspect_ratio, 0.1, 10.0, 0.0, 1.0));
     let skybox = Arc::new(GradientSkybox::new(Color::new(1.0, 1.0, 1.0), Color::new(0.5, 0.7, 1.0), Vec3::new(0.0, 1.0, 0.0)));
-    let world = Arc::new(build_scene());
+    let world = Arc::new(BVHNode::new(&build_scene(), 0.0, 1.0));
     
     progress_bar.set(0);
+
+    let start = Instant::now();
 
     render(world, skybox, camera, &params, move |sampled, _| {
         progress_bar.set(sampled as u64);
     }).save("./output.png");
+
+    let duration = start.elapsed();
+
+    println!("Time Elapsed: {:?}", duration);
 }
 
 fn build_scene() -> HittableList {

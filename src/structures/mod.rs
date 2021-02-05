@@ -21,3 +21,6 @@ pub use self::quaternion::Quaternion;
 
 pub mod transform;
 pub use self::transform::Transform;
+
+pub mod aabb;
+pub use self::aabb::AABB;
