@@ -4,13 +4,13 @@ use raytracer::rendering::render;
 use raytracer::rendering::skyboxes::GradientSkybox;
 use raytracer::rendering::Camera;
 use raytracer::rendering::RenderParams;
-use raytracer::textures::SolidColor;
+use raytracer::textures::{SolidColor, Checker};
 use raytracer::structures::{Color, Vec3, Point3, Quaternion, Transform};
 use raytracer::hittables::{BVHNode, HittableList, Sphere, MovingInstance};
 use raytracer::materials::{Metal, Lambertian, Dieletric};
 
 use std::sync::Arc;
-use std::time::{Instant};
+use std::time::Instant;
 
 use rand::prelude::{thread_rng, Rng};
 
@@ -41,7 +41,7 @@ fn main() {
 
     render(world, skybox, camera, &params, move |sampled, _| {
         progress_bar.set(sampled as u64);
-    }).save("./output.png");
+    }).save("./random_scene.png");
 
     let duration = start.elapsed();
 
@@ -53,7 +53,9 @@ fn build_scene() -> HittableList {
 
     let mut world = HittableList::new();
 
-    let ground_texture = Arc::new(SolidColor::new(Color::new(0.5, 0.5, 0.5)));
+    let ground_texture_odd = Arc::new(SolidColor::new(Color::new(0.2, 0.3, 0.1)));
+    let ground_texture_even = Arc::new(SolidColor::new(Color::new(0.9, 0.9, 0.9)));
+    let ground_texture = Arc::new(Checker::new(ground_texture_odd, ground_texture_even));
     let ground_material = Arc::new(Lambertian::new(ground_texture));
     let ground = Arc::new(Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, ground_material));
 
