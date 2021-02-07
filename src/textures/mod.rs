@@ -6,3 +6,6 @@ pub use solid_color::SolidColor;
 
 pub mod checker;
 pub use checker::Checker;
+
+pub mod sampling_mode;
+pub use sampling_mode::SamplingMode;
