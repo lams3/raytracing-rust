@@ -31,8 +31,8 @@ impl Hittable for HittableList {
         for hittable in &self.hittables {
             match hittable.hit(ray, t_min, closest_so_far) {
                 Some(record) => {
+                    closest_so_far = record.t;
                     current_hit = Some(record);
-                    closest_so_far = record.t
                 },
                 None => ()
             }

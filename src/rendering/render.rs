@@ -84,7 +84,7 @@ fn ray_color(ray: &Ray, world: Arc<dyn Hittable>, skybox: Arc<dyn Skybox>, depth
     }
     
     match world.hit(&ray, 0.001, INFINITY) {
-        Some(hit) => match hit.material.unwrap().scatter(ray, &hit) {
+        Some(hit) => match hit.material.scatter(ray, &hit) {
             Some((scattered_ray, attenuation)) => attenuation * ray_color(&scattered_ray, world, skybox, depth - 1),
             None => Color::new(0.0, 0.0, 0.0)
         }
