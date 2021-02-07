@@ -1,21 +1,27 @@
 use crate::structures::{Vec3, Point3, Ray};
 use crate::materials::Material;
 
-#[derive(Clone, Copy, Default)]
-pub struct HitRecord<'a> {
+use std::sync::Arc;
+
+#[derive(Clone)]
+pub struct HitRecord {
     pub point: Point3,
     pub normal: Vec3,
-    pub material: Option<&'a dyn Material>,
+    pub material: Arc<dyn Material>,
     pub t: f64,
+    pub u: f64,
+    pub v: f64
 }
 
-impl<'a> HitRecord<'a> {
-    pub fn new(point: Point3, normal: Vec3, material: &'a dyn Material, t: f64) -> Self {
+impl HitRecord {
+    pub fn new(point: Point3, normal: Vec3, material: Arc<dyn Material>, t: f64, u: f64, v: f64) -> Self {
         Self {
             point: point,
             normal: normal.normalized(),
-            material: Some(material),
-            t: t
+            material: material,
+            t: t,
+            u: u,
+            v: v
         }
     }
 
