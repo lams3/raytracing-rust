@@ -55,7 +55,7 @@ fn build_scene() -> HittableList {
 
     let ground_texture_odd = Arc::new(SolidColor::new(Color::new(0.2, 0.3, 0.1)));
     let ground_texture_even = Arc::new(SolidColor::new(Color::new(0.9, 0.9, 0.9)));
-    let ground_texture = Arc::new(Checker::new(ground_texture_odd, ground_texture_even));
+    let ground_texture = Arc::new(Checker::new(ground_texture_odd, ground_texture_even, 10.0));
     let ground_material = Arc::new(Lambertian::new(ground_texture));
     let ground = Arc::new(Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, ground_material));
 
