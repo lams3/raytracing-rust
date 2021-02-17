@@ -21,3 +21,13 @@ impl InverseLerp for f64 {
         (v - a) / (b - a)
     }
 }
+
+pub trait Clamp {
+    fn clamp(v: Self, min: Self, max: Self) -> Self;
+}
+
+impl Clamp for f64 {
+    fn clamp(v: Self, min: Self, max: Self) -> Self {
+        f64::min(f64::max(v, min), max)
+    }
+}
