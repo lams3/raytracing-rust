@@ -55,6 +55,24 @@ impl Perlin {
         }
     }
 
+    pub fn turbulence(&self, p: Point3) -> f64{
+        self.turbulence_with_depth(p, 7)
+    }
+
+    pub fn turbulence_with_depth(&self, p: Point3, depth: u32) -> f64 {
+        let mut accum = 0.0;
+        let mut weight = 1.0;
+        let mut p = p;
+
+        for _ in 0..depth {
+            accum += weight * self.noise(p);
+            weight *= 0.5;
+            p = 2.0 * p;
+        }
+
+        f64::abs(accum)
+    }
+
     fn generate_perm() -> [i32; POINT_COUNT] {
         let mut arr = [0; POINT_COUNT];
 

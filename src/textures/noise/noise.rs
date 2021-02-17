@@ -19,7 +19,8 @@ impl Noise {
 impl Texture for Noise {
 
     fn value(&self, _: f64, _: f64, p: Point3) -> Color {
-        let noise = 0.5 * (1.0 + self.perlin.noise(self.scale * p));
+        let turbulence = self.perlin.turbulence(p);
+        let noise = 0.5 * (1.0 + f64::sin(self.scale * p.z + 10.0 * turbulence));
         Color::new(1.0, 1.0, 1.0) * noise
     }
 }
