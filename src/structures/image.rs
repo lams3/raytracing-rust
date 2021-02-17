@@ -2,6 +2,8 @@ use crate::structures::Color;
 
 use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssign, Index, IndexMut};
 
+use image::GenericImageView;
+
 #[derive(Clone)]
 pub struct Image {
     pub width: usize,
@@ -16,6 +18,20 @@ impl Image {
             height: height,
             buffer: vec![Default::default(); width * height]
         }
+    }
+
+    pub fn read(path: &str) -> Self {
+        let loaded = image::open(path).unwrap();
+        
+        let (width, height) = loaded.dimensions();
+        let mut image = Self::new(width as usize, height as usize);
+        
+        for (x, y, p) in loaded.pixels() {
+            let color = Color::new((p[0] as f64) / 255.0, (p[1] as f64) / 255.0, (p[2] as f64) / 255.0);
+            image[(x as usize, y as usize)] = color;
+        }
+
+        image
     }
 
     pub fn save(&self, path: &str) {
