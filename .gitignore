@@ -11,5 +11,10 @@
 
 # ignore temporary outputs
 **/*.png
+**/*.jpg
 
 !/outputs/*.png
+!/outputs/*.jpg
+
+!/resources/*.png
+!/resources/*.jpg
