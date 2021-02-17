@@ -4,9 +4,9 @@ use raytracer::rendering::render;
 use raytracer::rendering::skyboxes::GradientSkybox;
 use raytracer::rendering::Camera;
 use raytracer::rendering::RenderParams;
-use raytracer::textures::{SolidColor, Checker, SamplingMode};
-use raytracer::structures::{Color, Vec3, Point3, Quaternion, Transform};
-use raytracer::hittables::{BVHNode, HittableList, Sphere, Instance};
+use raytracer::textures::Noise;
+use raytracer::structures::{Color, Vec3, Point3};
+use raytracer::hittables::{BVHNode, HittableList, Sphere};
 use raytracer::materials::Lambertian;
 
 use std::sync::Arc;
@@ -39,7 +39,7 @@ fn main() {
 
     render(world, skybox, camera, &params, move |sampled, _| {
         progress_bar.set(sampled as u64);
-    }).save("./two_spheres.png");
+    }).save("./two_perlin_spheres.png");
 
     let duration = start.elapsed();
 
@@ -49,19 +49,14 @@ fn main() {
 fn build_scene() -> HittableList {
     let mut world = HittableList::new();
 
-    let odd_texture = Arc::new(SolidColor::new(Color::new(0.2, 0.3, 0.1)));
-    let even_texture = Arc::new(SolidColor::new(Color::new(0.9, 0.9, 0.9)));
-    let checker_texture = Arc::new(Checker::with_sampling_mode(odd_texture, even_texture, 100.0, SamplingMode::UV));
-    let material = Arc::new(Lambertian::new(checker_texture));
-    let sphere = Arc::new(Sphere::new(Point3::new(0.0, 0.0, 0.0), 10.0, material));
+    let noise_texture = Arc::new(Noise::new(4.0));
+    let material = Arc::new(Lambertian::new(noise_texture));
     
-    let transform_0 = Transform::new(Vec3::new(0.0, -10.0, 0.0), Quaternion::default(), Vec3::new(1.0, 1.0, 1.0));
-    let instance_0 = Arc::new(Instance::new(sphere.clone(), transform_0));
-    world.add(instance_0);
-    
-    let transform_1 = Transform::new(Vec3::new(0.0, 10.0, 0.0), Quaternion::default(), Vec3::new(1.0, 1.0, 1.0));
-    let instance_1 = Arc::new(Instance::new(sphere.clone(), transform_1));
-    world.add(instance_1);
+    let sphere_0 = Arc::new(Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, material.clone()));
+    world.add(sphere_0);
+
+    let sphere_1 = Arc::new(Sphere::new(Point3::new(0.0, 2.0, 0.0), 2.0, material.clone()));
+    world.add(sphere_1);
 
     world
 }
