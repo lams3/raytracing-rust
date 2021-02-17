@@ -7,7 +7,7 @@ use raytracer::rendering::RenderParams;
 use raytracer::textures::{SolidColor, Checker, SamplingMode};
 use raytracer::structures::{Color, Vec3, Point3, Quaternion, Transform};
 use raytracer::hittables::{BVHNode, HittableList, Sphere, Instance};
-use raytracer::materials::{Lambertian};
+use raytracer::materials::Lambertian;
 
 use std::sync::Arc;
 use std::time::Instant;

@@ -16,7 +16,7 @@ impl Checker {
             odd: odd,
             even: even,
             frequency: frequency,
-            sampling_mode: SamplingMode::UV
+            sampling_mode: SamplingMode::SOLID
         }
     }
 
