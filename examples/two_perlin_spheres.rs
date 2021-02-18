@@ -1,9 +1,7 @@
 extern crate raytracer;
 
-use raytracer::rendering::render;
-use raytracer::rendering::skyboxes::GradientSkybox;
-use raytracer::rendering::Camera;
-use raytracer::rendering::RenderParams;
+use raytracer::rendering::{render, Camera, RenderParams};
+use raytracer::skyboxes::GradientSkybox;
 use raytracer::textures::Noise;
 use raytracer::structures::{Color, Vec3, Point3};
 use raytracer::hittables::{BVHNode, HittableList, Sphere};
