@@ -1,12 +1,11 @@
-use crate::structures::{Ray, Color, Vec3};
-use crate::utility::Remapable;
+use crate::structures::{Ray, Color};
 use crate::skyboxes::Skybox;
 
 pub struct SolidColorSkybox {
     pub color: Color,
 }
 
-impl GradientSkybox {
+impl SolidColorSkybox {
     pub fn new(color: Color) -> Self {
         Self {
             color: color
@@ -14,8 +13,8 @@ impl GradientSkybox {
     }
 }
 
-impl Skybox for GradientSkybox {
-    fn get_color(&self, ray: &Ray) -> Color {
-        self->color
+impl Skybox for SolidColorSkybox {
+    fn get_color(&self, _ray: &Ray) -> Color {
+        self.color
     }
 }
