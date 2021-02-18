@@ -37,7 +37,7 @@ fn main() {
 
     render(world, skybox, camera, &params, move |sampled, _| {
         progress_bar.set(sampled as u64);
-    }).save("./earth_texture.png");
+    }).save("./image_texture_sphere.png");
 
     let duration = start.elapsed();
 

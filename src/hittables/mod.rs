@@ -15,3 +15,6 @@ pub use self::moving_instance::MovingInstance;
 
 pub mod bvh_node;
 pub use self::bvh_node::BVHNode;
+
+pub mod xy_rect;
+pub use self::xy_rect::XYRect;

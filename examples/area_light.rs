@@ -1,11 +1,11 @@
 extern crate raytracer;
 
 use raytracer::rendering::{render, Camera, RenderParams};
-use raytracer::skyboxes::GradientSkybox;
-use raytracer::textures::Noise;
+use raytracer::skyboxes::SolidColorSkybox;
+use raytracer::textures::{Noise, SolidColor};
 use raytracer::structures::{Color, Vec3, Point3};
-use raytracer::hittables::{BVHNode, HittableList, Sphere};
-use raytracer::materials::Lambertian;
+use raytracer::hittables::{BVHNode, HittableList, Sphere, XYRect};
+use raytracer::materials::{Lambertian, DiffuseLight};
 
 use std::sync::Arc;
 use std::time::Instant;
@@ -27,8 +27,8 @@ fn main() {
         num_samples: NUM_SAMPLES,
         max_ray_depth: MAX_RAY_DEPTH
     };
-    let camera = Arc::new(Camera::new(Point3::new(13.0, 2.0, 3.0), Point3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 1.0, 0.0), (20.0 as f64).to_radians(), aspect_ratio, 0.0, 10.0, 0.0, 1.0));
-    let skybox = Arc::new(GradientSkybox::new(Color::new(1.0, 1.0, 1.0), Color::new(0.5, 0.7, 1.0), Vec3::new(0.0, 1.0, 0.0)));
+    let camera = Arc::new(Camera::new(Point3::new(26.0, 3.0, 6.0), Point3::new(0.0, 2.0, 0.0), Vec3::new(0.0, 1.0, 0.0), (20.0 as f64).to_radians(), aspect_ratio, 0.0, 10.0, 0.0, 1.0));
+    let skybox = Arc::new(SolidColorSkybox::new(Color::new(0.0, 0.0, 0.0)));
     let world = Arc::new(BVHNode::new(&build_scene(), 0.0, 1.0));
     
     progress_bar.set(0);
@@ -37,7 +37,7 @@ fn main() {
 
     render(world, skybox, camera, &params, move |sampled, _| {
         progress_bar.set(sampled as u64);
-    }).save("./two_perlin_spheres.png");
+    }).save("./area_light.png");
 
     let duration = start.elapsed();
 
@@ -49,12 +49,18 @@ fn build_scene() -> HittableList {
 
     let noise_texture = Arc::new(Noise::new(4.0));
     let material = Arc::new(Lambertian::new(noise_texture));
-    
+
     let sphere_0 = Arc::new(Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, material.clone()));
     world.add(sphere_0);
-
     let sphere_1 = Arc::new(Sphere::new(Point3::new(0.0, 2.0, 0.0), 2.0, material.clone()));
     world.add(sphere_1);
+
+
+    let light_texture = Arc::new(SolidColor::new(Color::new(4.0, 4.0, 4.0)));
+    let light_material = Arc::new(DiffuseLight::new(light_texture));
+
+    let light = Arc::new(XYRect::new(3.0, 5.0, 1.0, 3.0, -2.0, light_material.clone()));
+    world.add(light);
 
     world
 }
