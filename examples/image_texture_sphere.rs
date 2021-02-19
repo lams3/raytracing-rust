@@ -1,10 +1,8 @@
 extern crate raytracer;
 
-use raytracer::rendering::render;
-use raytracer::rendering::skyboxes::GradientSkybox;
-use raytracer::rendering::Camera;
-use raytracer::rendering::RenderParams;
-use raytracer::textures::Noise;
+use raytracer::rendering::{render, Camera, RenderParams};
+use raytracer::skyboxes::GradientSkybox;
+use raytracer::textures::ImageTexture;
 use raytracer::structures::{Color, Vec3, Point3};
 use raytracer::hittables::{BVHNode, HittableList, Sphere};
 use raytracer::materials::Lambertian;
@@ -39,7 +37,7 @@ fn main() {
 
     render(world, skybox, camera, &params, move |sampled, _| {
         progress_bar.set(sampled as u64);
-    }).save("./two_perlin_spheres.png");
+    }).save("./image_texture_sphere.png");
 
     let duration = start.elapsed();
 
@@ -49,14 +47,11 @@ fn main() {
 fn build_scene() -> HittableList {
     let mut world = HittableList::new();
 
-    let noise_texture = Arc::new(Noise::new(4.0));
-    let material = Arc::new(Lambertian::new(noise_texture));
+    let earth_texture = Arc::new(ImageTexture::read("./resources/earthmap.jpg"));
+    let material = Arc::new(Lambertian::new(earth_texture));
     
-    let sphere_0 = Arc::new(Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, material.clone()));
-    world.add(sphere_0);
-
-    let sphere_1 = Arc::new(Sphere::new(Point3::new(0.0, 2.0, 0.0), 2.0, material.clone()));
-    world.add(sphere_1);
+    let earth = Arc::new(Sphere::new(Point3::new(0.0, 0.0, 0.0), 2.0, material.clone()));
+    world.add(earth);
 
     world
 }

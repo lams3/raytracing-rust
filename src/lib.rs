@@ -4,3 +4,4 @@ pub mod hittables;
 pub mod materials;
 pub mod rendering;
 pub mod textures;
+pub mod skyboxes;

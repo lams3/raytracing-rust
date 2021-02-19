@@ -28,4 +28,11 @@ impl HitRecord {
     pub fn is_front_facing(&self, ray: &Ray) -> bool {
         Vec3::dot(&self.normal, &ray.direction) < 0.0
     }
+
+    pub fn get_facing_normal(&self, ray: &Ray) -> Vec3 {
+        match self.is_front_facing(ray) {
+            true => self.normal,
+            false => -self.normal
+        }
+    }
 }

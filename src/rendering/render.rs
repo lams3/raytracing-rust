@@ -1,7 +1,7 @@
 use crate::structures::{Color, Ray, Image};
 use crate::hittables::Hittable;
 use crate::rendering::Camera;
-use crate::rendering::skyboxes::Skybox;
+use crate::skyboxes::Skybox;
 
 use std::f64::INFINITY;
 use std::sync::Mutex;
@@ -84,9 +84,12 @@ fn ray_color(ray: &Ray, world: Arc<dyn Hittable>, skybox: Arc<dyn Skybox>, depth
     }
     
     match world.hit(&ray, 0.001, INFINITY) {
-        Some(hit) => match hit.material.scatter(ray, &hit) {
-            Some((scattered_ray, attenuation)) => attenuation * ray_color(&scattered_ray, world, skybox, depth - 1),
-            None => Color::new(0.0, 0.0, 0.0)
+        Some(hit) => {
+            let emitted = hit.material.emitted(hit.u, hit.v, hit.point);
+            match hit.material.scatter(ray, &hit) {
+                Some((scattered_ray, attenuation)) => emitted + (attenuation * ray_color(&scattered_ray, world, skybox, depth - 1)),
+                None => emitted
+            }
         }
         None => skybox.get_color(&ray)
     }

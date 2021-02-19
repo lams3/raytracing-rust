@@ -15,3 +15,15 @@ pub use self::moving_instance::MovingInstance;
 
 pub mod bvh_node;
 pub use self::bvh_node::BVHNode;
+
+pub mod xy_rect;
+pub use self::xy_rect::XYRect;
+
+pub mod xz_rect;
+pub use self::xz_rect::XZRect;
+
+pub mod yz_rect;
+pub use self::yz_rect::YZRect;
+
+pub mod aa_box;
+pub use self::aa_box::AABox;
