@@ -12,9 +12,9 @@ use std::time::Instant;
 
 use pbr::ProgressBar;
 
-const WIDTH: usize = 600;
-const HEIGHT: usize = 400;
-const NUM_SAMPLES: u32 = 500;
+const WIDTH: usize = 1280;
+const HEIGHT: usize = 720;
+const NUM_SAMPLES: u32 = 200;
 const MAX_RAY_DEPTH: u32 = 50;
 
 fn main() {
