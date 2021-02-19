@@ -3,8 +3,8 @@ extern crate raytracer;
 use raytracer::rendering::{render, Camera, RenderParams};
 use raytracer::skyboxes::SolidColorSkybox;
 use raytracer::textures::SolidColor;
-use raytracer::structures::{Color, Vec3, Point3};
-use raytracer::hittables::{BVHNode, HittableList, XYRect, XZRect, YZRect};
+use raytracer::structures::{Color, Vec3, Point3, Transform, Quaternion};
+use raytracer::hittables::{BVHNode, HittableList, XYRect, XZRect, YZRect, AABox, Instance};
 use raytracer::materials::{Lambertian, DiffuseLight};
 
 use std::sync::Arc;
@@ -12,9 +12,9 @@ use std::time::Instant;
 
 use pbr::ProgressBar;
 
-const WIDTH: usize = 1280;
-const HEIGHT: usize = 720;
-const NUM_SAMPLES: u32 = 200;
+const WIDTH: usize = 600;
+const HEIGHT: usize = 400;
+const NUM_SAMPLES: u32 = 500;
 const MAX_RAY_DEPTH: u32 = 50;
 
 fn main() {
@@ -63,6 +63,15 @@ fn build_scene() -> HittableList {
     world.add(Arc::new(XZRect::new(0.0, 555.0, 0.0, 555.0, 0.0, white_material.clone())));
     world.add(Arc::new(XZRect::new(0.0, 555.0, 0.0, 555.0, 555.0, white_material.clone())));
     world.add(Arc::new(XYRect::new(0.0, 555.0, 0.0, 555.0, 555.0, white_material.clone())));
+
+    let box_0 = Arc::new(AABox::new(Point3::new(0.0, 0.0, 0.0), Point3::new(165.0, 330.0, 165.0), white_material.clone()));
+    let box_1 = Arc::new(AABox::new(Point3::new(0.0, 0.0, 0.0), Point3::new(165.0, 165.0, 165.0), white_material.clone()));
+
+    let transform_0 = Transform::new(Vec3::new(265.0, 0.0, 295.0), Quaternion::from_axis_angle(Vec3::up(), f64::to_radians(15.0)), Vec3::new(1.0, 1.0, 1.0));
+    let transform_1 = Transform::new(Vec3::new(130.0, 0.0, 65.0), Quaternion::from_axis_angle(Vec3::up(), f64::to_radians(-18.0)), Vec3::new(1.0, 1.0, 1.0));
+
+    world.add(Arc::new(Instance::new(box_0, transform_0)));
+    world.add(Arc::new(Instance::new(box_1, transform_1)));
 
     world
 }
