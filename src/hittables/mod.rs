@@ -24,3 +24,6 @@ pub use self::xz_rect::XZRect;
 
 pub mod yz_rect;
 pub use self::yz_rect::YZRect;
+
+pub mod aa_box;
+pub use self::aa_box::AABox;
