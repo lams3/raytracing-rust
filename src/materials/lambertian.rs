@@ -18,7 +18,8 @@ impl Lambertian {
 
 impl Material for Lambertian {
     fn scatter(&self, ray: &Ray, hit: &HitRecord) -> Option<(Ray, Color)> {
-        let scatter_direction = Vec3::random_in_hemisphere(&hit.normal);
+        let normal = hit.get_facing_normal(ray);
+        let scatter_direction = Vec3::random_in_hemisphere(&normal);
         let scattered_ray = Ray::with_time(hit.point, scatter_direction, ray.time);
         let attenuation = self.albedo.value(hit.u, hit.v, hit.point);
         Some((scattered_ray, attenuation))
