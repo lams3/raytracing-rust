@@ -27,3 +27,6 @@ pub use self::yz_rect::YZRect;
 
 pub mod aa_box;
 pub use self::aa_box::AABox;
+
+pub mod constant_medium;
+pub use self::constant_medium::ConstantMedium;
