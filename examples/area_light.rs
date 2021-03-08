@@ -14,7 +14,7 @@ use pbr::ProgressBar;
 
 const WIDTH: usize = 1280;
 const HEIGHT: usize = 720;
-const NUM_SAMPLES: u32 = 100;
+const NUM_SAMPLES: u32 = 1000;
 const MAX_RAY_DEPTH: u32 = 50;
 
 fn main() {
@@ -54,7 +54,6 @@ fn build_scene() -> HittableList {
     world.add(sphere_0);
     let sphere_1 = Arc::new(Sphere::new(Point3::new(0.0, 2.0, 0.0), 2.0, material.clone()));
     world.add(sphere_1);
-
 
     let light_texture = Arc::new(SolidColor::new(Color::new(4.0, 4.0, 4.0)));
     let light_material = Arc::new(DiffuseLight::new(light_texture));

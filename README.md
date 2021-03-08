@@ -1,6 +1,6 @@
 # raytracing-rust
 
-![random_scene](./outputs/random_scene.png)
+![random_scene](./outputs/book_two.png)
 
 Rust implementation of the path tracer described by Peter Shirley in his book series "Ray Tracing in One Weekend".
 
@@ -12,5 +12,5 @@ Here, I'll try not only to "translate" from the C++ code in the books, but also 
 - [x] First book ("Ray Tracing in One Weekend") implementation;
 - [x] Multi-threading implementation;
 - [ ] Triangle Mesh Hittable implementation;
-- [ ] Second book ("Ray Tracing: The Next Week") implementation;
+- [x] Second book ("Ray Tracing: The Next Week") implementation;
 - [ ] Third book ("Ray Tracing: The Rest of Your Life") implementation;

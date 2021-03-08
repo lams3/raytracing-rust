@@ -14,7 +14,7 @@ use pbr::ProgressBar;
 
 const WIDTH: usize = 1280;
 const HEIGHT: usize = 720;
-const NUM_SAMPLES: u32 = 100;
+const NUM_SAMPLES: u32 = 1000;
 const MAX_RAY_DEPTH: u32 = 50;
 
 fn main() {
