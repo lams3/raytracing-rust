@@ -77,6 +77,11 @@ impl Vec3 {
         radius * Vec3::new(theta.cos(), theta.sin(), 0.0)
     }
 
+    pub fn random_between(min: f64, max: f64) -> Vec3 {
+        let mut rng = thread_rng();
+        Vec3::new(rng.gen_range(min..max), rng.gen_range(min..max), rng.gen_range(min..max))
+    }
+
     pub fn reflect(v: &Self, n: &Self) -> Self{
         let v = *v;
         let n = *n;
