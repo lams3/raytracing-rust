@@ -1,7 +1,8 @@
-use std::default::Default;
 use std::ops::{Neg, Add, AddAssign, Sub, SubAssign, Div, DivAssign, Mul, MulAssign, Index, IndexMut};
+use std::default::Default;
+use std::f64::consts::PI;
+
 use rand::prelude::{thread_rng, Rng};
-use std::f64::consts::{PI};
 
 #[derive(PartialEq, Clone, Copy, Default, Debug)]
 pub struct Vec3 {
@@ -17,6 +18,34 @@ impl Vec3 {
             y: y,
             z: z
         }
+    }
+
+    pub fn zero() -> Self {
+        Self::default()
+    }
+
+    pub fn right() -> Self {
+        Vec3::new(1.0, 0.0, 0.0)
+    }
+
+    pub fn left() -> Self {
+        -Vec3::right()
+    }
+
+    pub fn up() -> Self {
+        Vec3::new(0.0, 1.0, 0.0)
+    }
+
+    pub fn down() -> Self {
+        -Vec3::up()
+    }
+
+    pub fn front() -> Self {
+        Vec3::new(0.0, 0.0, 1.0)
+    }
+
+    pub fn back() -> Self {
+        -Vec3::front()
     }
 
     pub fn random_in_unit_sphere() -> Self {
@@ -46,6 +75,11 @@ impl Vec3 {
         let theta = rng.gen_range(-PI..=PI);
         let radius = rng.gen_range(0.0..=1.0);
         radius * Vec3::new(theta.cos(), theta.sin(), 0.0)
+    }
+
+    pub fn random_between(min: f64, max: f64) -> Vec3 {
+        let mut rng = thread_rng();
+        Vec3::new(rng.gen_range(min..max), rng.gen_range(min..max), rng.gen_range(min..max))
     }
 
     pub fn reflect(v: &Self, n: &Self) -> Self{

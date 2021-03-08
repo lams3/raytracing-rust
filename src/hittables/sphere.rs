@@ -1,8 +1,9 @@
+use crate::structures::{Vec3, Point3, Ray, HitRecord, AABB};
+use crate::hittables::Hittable;
 use crate::materials::Material;
-use crate::hittables::{Hittable};
-use crate::structures::{Vec3, Point3, Ray, HitRecord};
 
 use std::sync::Arc;
+use std::f64::consts::PI;
 
 pub struct Sphere {
     pub center: Point3,
@@ -17,6 +18,16 @@ impl Sphere {
             radius: radius,
             material: material
         }
+    }
+
+    fn calc_uv(&self, p: Point3) -> (f64, f64) {
+        let vec = (p - self.center).normalized();
+        let phi = f64::atan2(-vec.z, vec.x) + PI;
+        let theta = f64::acos(-vec.y);
+        let u = phi / (2.0 * PI);
+        let v = theta / PI;
+       
+        (u, v)
     }
 }
 
@@ -39,10 +50,16 @@ impl Hittable for Sphere {
             if t_min < hit && hit < t_max {
                 let p = ray.at(hit);
                 let n = (p - self.center) / self.radius;
-                return Some(HitRecord::new(p, n, self.material.as_ref(), hit))
+                let (u, v) = self.calc_uv(p);
+                return Some(HitRecord::new(p, n, self.material.clone(), hit, u, v))
             }
         }
         
         return None;
+    }
+    
+    fn bounding_box(&self, _: f64, _: f64) -> Option<AABB> {
+        let vec = self.radius * Vec3::new(1.0, 1.0, 1.0);
+        Some(AABB::new(self.center - vec, self.center + vec))
     }
 }

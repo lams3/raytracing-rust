@@ -1,9 +1,6 @@
 use crate::structures::{Ray, Color, Vec3};
 use crate::utility::Remapable;
-
-pub trait Skybox: Send + Sync {
-    fn get_color(&self, ray: &Ray) -> Color;
-}
+use crate::skyboxes::Skybox;
 
 pub struct GradientSkybox {
     pub from: Color,
